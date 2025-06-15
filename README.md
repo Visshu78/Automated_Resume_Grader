@@ -56,7 +56,7 @@ Machine Learning Engineer
 
 ### 🔗 Clone the Repository
 
-'''bash
+```bash
 git clone https://github.com/your-username/Automated_Resume_Grader.git
 cd Automated_Resume_Grader
 
