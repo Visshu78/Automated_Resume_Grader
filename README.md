@@ -11,7 +11,6 @@ A smart  web application built using *Streamlit* that analyzes and scores upload
 ✅ Recommend personalized career learning paths  
 ✅ Suggest job titles based on resume content  
 ✅ Streamlit-based interactive UI  
-✅ All processing done locally – no data is sent to external servers
 
 ---
 
@@ -33,7 +32,7 @@ streamlit-tags, pafy – For enhanced UI inputs and video integration
 
 🧪 How It Works
 
-1. User uploads a PDF format resume.
+1. User uploads a pdf or txt format resume.
 
 2. The system extracts key information using NLP:
 Name, Contact Details, Degree, University, Experience, Skills
