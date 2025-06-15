@@ -250,5 +250,95 @@ def run():
                 cur_date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
                 cur_time = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
                 timestamp = str(cur_date+'_'+cur_time)
+               
+                ### Resume writing recommendation
+                st.subheader("**Resume Tips & Ideas💡**")
+                resume_score = 0
+                if 'Objective' in resume_text:
+                    resume_score = resume_score+20
+                    st.markdown('''<h5 style='text-align: left; color: #1ed760;'>[+] Awesome! You have added Objective</h4>''',unsafe_allow_html=True)
+                else:
+                    st.markdown('''<h5 style='text-align: left; color: #000000;'>[-] Please add your career objective, it will give your career intension to the Recruiters.</h4>''',unsafe_allow_html=True)
 
+                if 'Declaration'  in resume_text:
+                    resume_score = resume_score + 20
+                    st.markdown('''<h5 style='text-align: left; color: #1ed760;'>[+] Awesome! You have added Delcaration/h4>''',unsafe_allow_html=True)
+                else:
+                    st.markdown('''<h5 style='text-align: left; color: #000000;'>[-] Please add Declaration. It will give the assurance that everything written on your resume is true and fully acknowledged by you</h4>''',unsafe_allow_html=True)
+
+                if 'Hobbies' or 'Interests'in resume_text:
+                    resume_score = resume_score + 20
+                    st.markdown('''<h5 style='text-align: left; color: #1ed760;'>[+] Awesome! You have added your Hobbies</h4>''',unsafe_allow_html=True)
+                else:
+                    st.markdown('''<h5 style='text-align: left; color: #000000;'>[-] Please add Hobbies. It will show your persnality to the Recruiters and give the assurance that you are fit for this role or not.</h4>''',unsafe_allow_html=True)
+
+                if 'Achievements' in resume_text:
+                    resume_score = resume_score + 20
+                    st.markdown('''<h5 style='text-align: left; color: #1ed760;'>[+] Awesome! You have added your Achievements </h4>''',unsafe_allow_html=True)
+                else:
+                    st.markdown('''<h5 style='text-align: left; color: #000000;'>[-] Please add Achievements. It will show that you are capable for the required position.</h4>''',unsafe_allow_html=True)
+
+                if 'Projects' in resume_text:
+                    resume_score = resume_score + 20
+                    st.markdown('''<h5 style='text-align: left; color: #1ed760;'>[+] Awesome! You have added your Projects</h4>''',unsafe_allow_html=True)
+                else:
+                    st.markdown('''<h5 style='text-align: left; color: #000000;'>[-] Please add Projects. It will show that you have done work related the required position or not.</h4>''',unsafe_allow_html=True)
+
+                st.subheader("**Resume Score📝**")
+                st.markdown(
+                    """
+                    <style>
+                        .stProgress > div > div > div > div {
+                            background-color: #d73b5c;
+                        }
+                    </style>""",
+                    unsafe_allow_html=True,
+                )
+                my_bar = st.progress(0)
+                score = 0
+                for percent_complete in range(resume_score):
+                    score +=1
+                    time.sleep(0.1)
+                    my_bar.progress(percent_complete + 1)
+                st.success('** Your Resume Writing Score: ' + str(score)+'**')
+                st.warning("** Note: This score is calculated based on the content that you have in your Resume. **")
+                st.balloons()
+
+                insert_data(resume_data['name'], resume_data['email'], str(resume_score), timestamp,
+                              str(resume_data['no_of_pages']), reco_field, cand_level, str(resume_data['skills']),
+                              str(recommended_skills), str(rec_course))
+
+                ## Resume writing video
+                st.header("**Bonus Video for Resume Writing Tips💡**")
+                resume_vid = random.choice(resume_videos)
+                res_vid_title = fetch_yt_video(resume_vid)
+                st.subheader("✅ **"+res_vid_title+"**")
+                st.video(resume_vid)
+                connection.commit()
+        else:
+            st.error('🧠 Tip: Only PDF or TXT files are supported. If your file is in DOCX format, try saving it as a PDF before uploading.')
+    else:
+        ## Admin Side
+        st.success('Welcome to Admin Side')
+        # st.sidebar.subheader('**ID / Password Required!**')
+
+        ad_user = st.text_input("Username")
+        ad_password = st.text_input("Password", type='password')
+        if st.button('Login'):
+            if ad_user == 'admin' and ad_password == 'admin123':
+                st.success("Welcome Admin!")
+                # Display Data
+                cursor.execute('''SELECT*FROM user_data''')
+                data = cursor.fetchall()
+                st.header("**User's Data**")
+                df = pd.DataFrame(data, columns=['ID', 'Name', 'Email', 'Resume Score', 'Timestamp', 'Total Page',
+                                                 'Predicted Field', 'User Level', 'Actual Skills', 'Recommended Skills',
+                                                 'Recommended Course'])
+                st.dataframe(df)
+                st.markdown(get_table_download_link(df,'User_Data.csv','Download Report'), unsafe_allow_html=True)
+                ## Admin Side Data
+                query = 'select * from user_data;'
+            else:
+                st.error("Wrong ID & Password Provided")
+run()
                 
