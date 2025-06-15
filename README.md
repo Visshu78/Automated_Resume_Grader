@@ -14,6 +14,10 @@ A smart  web application built using *Streamlit* that analyzes and scores upload
 
 ---
 
+## Presentation Video
+    https://drive.google.com/file/d/1d73j5hqj680HktixpIaIAQt2MhzATyAi/view?usp=drive_link
+
+---
 🛠 Tech Stack
 
 Python 3.13.5
@@ -78,3 +82,5 @@ App will launch in your browser at http://localhost:8501
 
 
 ---
+
+
